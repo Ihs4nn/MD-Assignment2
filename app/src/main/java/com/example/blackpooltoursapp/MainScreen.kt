@@ -20,8 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
-
-
 @Composable
 fun MainScreen(navController: NavController) {
     Column(

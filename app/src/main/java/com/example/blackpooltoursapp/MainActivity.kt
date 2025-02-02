@@ -24,6 +24,7 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController = navController, startDestination = "main_screen") {
                         composable("main_screen") { MainScreen(navController) }
                         composable("login_screen") { LoginScreen(navController) }
+                        composable("tours_list_screen") { ToursList(navController) }
                     }
                 }
             }

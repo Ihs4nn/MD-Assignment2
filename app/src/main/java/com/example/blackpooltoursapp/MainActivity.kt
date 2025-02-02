@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) {
                     NavHost(navController = navController, startDestination = "main_screen") {
                         composable("main_screen") { MainScreen(navController) }
-                        composable("login_screen") { LoginScreen() }
+                        composable("login_screen") { LoginScreen(navController) }
                     }
                 }
             }

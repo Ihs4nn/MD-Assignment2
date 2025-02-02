@@ -1,5 +1,6 @@
 package com.example.blackpooltoursapp
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,10 +26,13 @@ import androidx.navigation.NavController
 
 @Composable
 fun LoginScreen(navController: NavController) {
+    val username = remember { mutableStateOf("") }
+    val password = remember { mutableStateOf("") }
+    val isError = remember { mutableStateOf(false) }
     Column(Modifier.fillMaxSize().padding(48.dp)) {
         LoginHeader(navController)
-        LoginComponents()
-        LoginFooter(navController)
+        LoginComponents(username, password, isError)
+        LoginFooter(navController, username, password, isError)
     }
 }
 
@@ -49,38 +53,60 @@ fun LoginHeader(navController: NavController){
 }
 
 @Composable
-fun LoginComponents(){
-    val username = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
+fun LoginComponents(username: MutableState<String>, password: MutableState<String>, isError: MutableState<Boolean>){
 
     Spacer(modifier = Modifier.height(70.dp))
+
+    if (isError.value){
+        Text(
+            text = "Invalid username or password.",
+            color = Color.Red,
+            fontSize = 14.sp,
+            modifier = Modifier
+                .padding(start = 8.dp)
+
+        )
+    }
+    Spacer(modifier = Modifier.height(20.dp))
 
     TextField(
         value = username.value,
         onValueChange = { username.value = it },
         label = { Text("Username *") },
+        isError = isError.value,
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 16.dp)
     )
-    Spacer(modifier = Modifier.height(50.dp))
+
+    Spacer(modifier = Modifier.height(25.dp))
     TextField(
         value = password.value,
         onValueChange = { password.value = it },
         label = { Text("Password *") },
+        isError = isError.value,
         visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 32.dp)
     )
+
 }
 
 @Composable
-fun LoginFooter(navController: NavController){
+fun LoginFooter(navController: NavController, username: MutableState<String>, password: MutableState<String>, isError: MutableState<Boolean>){
+
     Button(
         modifier = Modifier.width(200.dp),
-        onClick = { navController.navigate("tours_list_screen") },
+        onClick = {
+            if (username.value == "user" && password.value == "pass"){
+                isError.value = false
+                navController.navigate("tours_list_screen")
+            } else {
+                isError.value = true
+            }
+                  },
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFA8E6CF))
 
     ) {

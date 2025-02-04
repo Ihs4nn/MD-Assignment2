@@ -10,8 +10,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.layout.ContentScale
@@ -22,16 +24,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.compose.material3.Text
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.Color
 
 data class Tour(
     val image: Int,
@@ -50,16 +48,18 @@ fun ToursList(navController: NavController) {
         Tour(R.drawable.japan, "Mount Fuji", "Japan's highest mountain","Lorem ipsum dolor sit amet, consectetur adipiscing elit")
     )
 
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(25.dp)
-    ) {
-        items(sampleTours){
-            tour -> TourCards(tour)
+    Column(Modifier.fillMaxSize().padding(5.dp)) {
+        LazyColumn(
+            modifier = Modifier
+                .weight(1f)
+                .padding(20.dp)
+        ) {
+            items(sampleTours){
+                    tour -> TourCards(tour)
+            }
         }
+        ToursListFooter()
     }
-
 }
 
 @Composable
@@ -88,10 +88,8 @@ fun TourCards(tour: Tour) {
                 contentScale = ContentScale.Crop
             )
             Spacer(modifier = Modifier.height(8.dp))
-
             Text(text = tour.title)
             Spacer(modifier = Modifier.height(4.dp))
-
             Text(text = tour.desc)
 
             if (expanded) {
@@ -99,6 +97,37 @@ fun TourCards(tour: Tour) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(text = tour.extraInfo)
             }
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Button(
+                modifier = Modifier
+                    .width(55.dp),
+                onClick = { },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFA8E6CF)),
+
+            ) {
+                Text("+")
+            }
         }
     }
+}
+
+@Composable
+fun ToursListFooter(){
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(5.dp),
+        horizontalArrangement = Arrangement.Center
+    ){
+        Button(
+            modifier = Modifier.width(200.dp),
+            onClick = { },
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFA8E6CF))
+
+        ) {
+            Text("My Tours")
+        }
+    }
+
 }

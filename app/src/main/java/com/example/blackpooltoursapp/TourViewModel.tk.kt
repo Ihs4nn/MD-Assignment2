@@ -12,4 +12,8 @@ class TourViewModel : ViewModel() {
             _savedTours.add(tour)
         }
     }
+//end
+    fun removeTour(tour: Tour){
+        _savedTours.remove(tour)
+    }
 }

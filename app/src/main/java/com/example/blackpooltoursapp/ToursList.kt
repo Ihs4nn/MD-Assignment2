@@ -55,7 +55,7 @@ fun ToursList(navController: NavController, tourViewModel: TourViewModel) {
         ) {
             // AI Aided work
             items(sampleTours){ tour ->
-                TourCards(tour, onSaveTour = { tourViewModel.addTour(it) })
+                TourCards(tour, onSaveTour = { tourViewModel.addTour(it) }, onRemoveTour = {tourViewModel.removeTour(it)})
             }
         }
         //end
@@ -64,8 +64,9 @@ fun ToursList(navController: NavController, tourViewModel: TourViewModel) {
 }
 
 @Composable
-fun TourCards(tour: Tour, onSaveTour: (Tour) -> Unit) {
+fun TourCards(tour: Tour, onSaveTour: (Tour) -> Unit, onRemoveTour: (Tour) -> Unit = {}) {
     var expanded by remember { mutableStateOf<Boolean>(false) }
+    var hidden by remember { mutableStateOf<Boolean>(true) }
 
     Card(
         modifier = Modifier
@@ -109,6 +110,16 @@ fun TourCards(tour: Tour, onSaveTour: (Tour) -> Unit) {
 
             ) {
                 Text("+")
+            }
+
+            Button(
+                modifier = Modifier
+                    .width(55.dp),
+
+                onClick = {onRemoveTour(tour)},
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF8A80)),
+            ) {
+                Text("-")
             }
         }
     }

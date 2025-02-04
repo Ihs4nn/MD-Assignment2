@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Composable
@@ -42,14 +43,17 @@ fun MyTours(navController: NavController, tourViewModel: TourViewModel) {
     ) {
         Text(
             text = "My Saved Tours",
+            fontSize = 35.sp,
             modifier = Modifier.padding(16.dp)
         )
         // AI Aided work
         LazyColumn(modifier = Modifier.weight(1f).padding(25.dp)) {
             items(tourViewModel.savedTours) { tour ->
-                TourCards(tour, onSaveTour = {})
+                TourCards(tour, onSaveTour = {}, onRemoveTour = {tourViewModel.removeTour(it)})
             }
+
         }
+
         Button(
             modifier = Modifier.fillMaxWidth().padding(16.dp),
             onClick = { navController.popBackStack() },

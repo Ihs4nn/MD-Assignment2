@@ -34,6 +34,8 @@ import androidx.navigation.NavController
 
 @Composable
 fun MyTours(navController: NavController, tourViewModel: TourViewModel) {
+    val isHidden by remember { mutableStateOf<Boolean>(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -49,11 +51,10 @@ fun MyTours(navController: NavController, tourViewModel: TourViewModel) {
         // AI Aided work
         LazyColumn(modifier = Modifier.weight(1f).padding(25.dp)) {
             items(tourViewModel.savedTours) { tour ->
-                TourCards(tour, onSaveTour = {}, onRemoveTour = {tourViewModel.removeTour(it)})
+                TourCards(tour, onSaveTour = {}, onRemoveTour = {tourViewModel.removeTour(it)}, isHidden = isHidden)
             }
 
         }
-
         Button(
             modifier = Modifier.fillMaxWidth().padding(16.dp),
             onClick = { navController.popBackStack() },

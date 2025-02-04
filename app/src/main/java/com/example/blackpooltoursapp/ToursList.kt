@@ -38,6 +38,7 @@ data class Tour(
 )
 @Composable
 fun ToursList(navController: NavController, tourViewModel: TourViewModel) {
+    var isHidden by remember { mutableStateOf<Boolean>(true) }
 
     val sampleTours = listOf(
         Tour(R.drawable.morocco, "Sahara Dessert", "Morocco's expansive dunes","Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
@@ -55,24 +56,26 @@ fun ToursList(navController: NavController, tourViewModel: TourViewModel) {
         ) {
             // AI Aided work
             items(sampleTours){ tour ->
-                TourCards(tour, onSaveTour = { tourViewModel.addTour(it) }, onRemoveTour = {tourViewModel.removeTour(it)})
+                TourCards(tour, onSaveTour = { tourViewModel.addTour(it) }, onRemoveTour = {tourViewModel.removeTour(it)}, isHidden = isHidden)
             }
         }
         //end
-        ToursListFooter(navController)
+        ToursListFooter(navController, hiddenButtonNav = {
+            isHidden = false
+            navController.navigate("my_tours_screen")
+        })
     }
 }
 
 @Composable
-fun TourCards(tour: Tour, onSaveTour: (Tour) -> Unit, onRemoveTour: (Tour) -> Unit = {}) {
-    var expanded by remember { mutableStateOf<Boolean>(false) }
-    var hidden by remember { mutableStateOf<Boolean>(true) }
+fun TourCards(tour: Tour, onSaveTour: (Tour) -> Unit, onRemoveTour: (Tour) -> Unit = {}, isHidden: Boolean) {
+    var isExpanded by remember { mutableStateOf<Boolean>(false) }
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
-            .clickable { expanded = !expanded },
+            .clickable { isExpanded = !isExpanded },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
@@ -93,40 +96,42 @@ fun TourCards(tour: Tour, onSaveTour: (Tour) -> Unit, onRemoveTour: (Tour) -> Un
             Spacer(modifier = Modifier.height(4.dp))
             Text(text = tour.desc)
 
-            if (expanded) {
+            if (isExpanded) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(text = tour.extraInfo)
             }
             Spacer(modifier = Modifier.height(10.dp))
 
-            Button(
-                modifier = Modifier
-                    .width(55.dp),
-                // AI Aided work
-                onClick = { onSaveTour(tour)},
-                // end
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFA8E6CF)),
+            if (isHidden){
+                Button(
+                    modifier = Modifier
+                        .width(55.dp),
+                    // AI Aided work
+                    onClick = { onSaveTour(tour)},
+                    // end
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFA8E6CF)),
+                ) {
+                    Text("+")
+                }
+            } else {
+                Button(
+                    modifier = Modifier
+                        .width(55.dp),
 
-            ) {
-                Text("+")
+                    onClick = {onRemoveTour(tour)},
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF8A80)),
+                ) {
+                    Text("-")
+                }
             }
 
-            Button(
-                modifier = Modifier
-                    .width(55.dp),
-
-                onClick = {onRemoveTour(tour)},
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF8A80)),
-            ) {
-                Text("-")
-            }
         }
     }
 }
 
 @Composable
-fun ToursListFooter(navController: NavController){
+fun ToursListFooter(navController: NavController, hiddenButtonNav: () -> Unit){
     Row(
         modifier = Modifier
             .fillMaxWidth(),

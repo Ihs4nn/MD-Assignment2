@@ -11,9 +11,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.layout.ContentScale
@@ -28,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 
@@ -38,13 +37,13 @@ data class Tour(
     val extraInfo: String
 )
 @Composable
-fun ToursList(navController: NavController) {
+fun ToursList(navController: NavController, tourViewModel: TourViewModel) {
 
     val sampleTours = listOf(
         Tour(R.drawable.morocco, "Sahara Dessert", "Morocco's expansive dunes","Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
         Tour(R.drawable.spain, "Sagrada Famillia", "A breathtaking church in Barcelona","Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
         Tour(R.drawable.italy, "Rome","The capital of Italy","Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
-        Tour(R.drawable.aussie, "Kangaroo Islam","A wildlife paradise in Australia","Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
+        Tour(R.drawable.aussie, "Kangaroo Island","A wildlife paradise in Australia","Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
         Tour(R.drawable.japan, "Mount Fuji", "Japan's highest mountain","Lorem ipsum dolor sit amet, consectetur adipiscing elit")
     )
 
@@ -54,16 +53,18 @@ fun ToursList(navController: NavController) {
                 .weight(1f)
                 .padding(20.dp)
         ) {
-            items(sampleTours){
-                    tour -> TourCards(tour)
+            // AI Aided work
+            items(sampleTours){ tour ->
+                TourCards(tour, onSaveTour = { tourViewModel.addTour(it) })
             }
         }
-        ToursListFooter()
+        //end
+        ToursListFooter(navController)
     }
 }
 
 @Composable
-fun TourCards(tour: Tour) {
+fun TourCards(tour: Tour, onSaveTour: (Tour) -> Unit) {
     var expanded by remember { mutableStateOf<Boolean>(false) }
 
     Card(
@@ -77,7 +78,6 @@ fun TourCards(tour: Tour) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            // Image
             Image(
                 painter = painterResource(id = tour.image),
                 contentDescription = tour.title,
@@ -102,7 +102,9 @@ fun TourCards(tour: Tour) {
             Button(
                 modifier = Modifier
                     .width(55.dp),
-                onClick = { },
+                // AI Aided work
+                onClick = { onSaveTour(tour)},
+                // end
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFA8E6CF)),
 
             ) {
@@ -113,16 +115,17 @@ fun TourCards(tour: Tour) {
 }
 
 @Composable
-fun ToursListFooter(){
+fun ToursListFooter(navController: NavController){
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(5.dp),
-        horizontalArrangement = Arrangement.Center
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+
     ){
         Button(
-            modifier = Modifier.width(200.dp),
-            onClick = { },
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            onClick = { navController.navigate("my_tours_screen")},
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFA8E6CF))
 
         ) {

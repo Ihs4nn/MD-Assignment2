@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -20,11 +21,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             BlackPoolToursAppTheme {
                 val navController = rememberNavController()
+                val tourViewModel = remember { TourViewModel() }
                 Scaffold(modifier = Modifier.fillMaxSize()) {
                     NavHost(navController = navController, startDestination = "main_screen") {
                         composable("main_screen") { MainScreen(navController) }
                         composable("login_screen") { LoginScreen(navController) }
-                        composable("tours_list_screen") { ToursList(navController) }
+                        composable("tours_list_screen") { ToursList(navController, tourViewModel) }
+                        composable("my_tours_screen") { MyTours(navController, tourViewModel) }
                     }
                 }
             }

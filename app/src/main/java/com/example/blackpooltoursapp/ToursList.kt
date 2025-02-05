@@ -59,7 +59,9 @@ fun ToursList(navController: NavController, tourViewModel: TourViewModel) {
                 .padding(20.dp)
         ) {
             // AI Aided work
+            // Iterates over sampleTours and displays each in a 'TourCard'
             items(sampleTours){ tour ->
+                // Adds actions to save or remove a tour from the list
                 TourCards(tour, onSaveTour = { tourViewModel.addTour(it) }, onRemoveTour = {tourViewModel.removeTour(it)}, isHidden = isHidden)
             }
         }
@@ -79,6 +81,7 @@ fun TourCards(tour: Tour, onSaveTour: (Tour) -> Unit, onRemoveTour: (Tour) -> Un
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
+            // Allows card to be clickable
             .clickable { isExpanded = !isExpanded },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
@@ -100,12 +103,14 @@ fun TourCards(tour: Tour, onSaveTour: (Tour) -> Unit, onRemoveTour: (Tour) -> Un
             Spacer(modifier = Modifier.height(4.dp))
             Text(text = tour.desc)
 
+            // If the card has been clicked, it is expanded and 'extraInfo' is displayed to user
             if (isExpanded) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(text = tour.extraInfo)
             }
             Spacer(modifier = Modifier.height(10.dp))
+
 
             if (isHidden){
                 Button(
@@ -118,12 +123,14 @@ fun TourCards(tour: Tour, onSaveTour: (Tour) -> Unit, onRemoveTour: (Tour) -> Un
                 ) {
                     Text("+")
                 }
+            // Conditional used to toggle '-' button for My Tours
             } else {
                 Button(
                     modifier = Modifier
                         .width(55.dp),
-
+                    // Once the button is clicked, runs the onRemoveTour function to remove tour
                     onClick = {onRemoveTour(tour)},
+                    // Red colour to specify deletion
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF8A80)),
                 ) {
                     Text("-")
@@ -143,6 +150,7 @@ fun ToursListFooter(navController: NavController){
         horizontalArrangement = Arrangement.Center,
 
     ){
+        // Button used to allow users to navigate to 'My Tours' screen
         Button(
             modifier = Modifier.fillMaxWidth().padding(16.dp),
             onClick = { navController.navigate("my_tours_screen")},

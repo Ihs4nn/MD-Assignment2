@@ -102,7 +102,7 @@ fun LoginFooter(navController: NavController, username: MutableState<String>, pa
     Button(
         modifier = Modifier.width(200.dp),
         onClick = {
-            // Only navigates if user credentials are valid
+            // Only navigate to tour list if user credentials are valid
             if (username.value == "user" && password.value == "pass"){
                 isError.value = false
                 navController.navigate("tours_list_screen")

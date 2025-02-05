@@ -39,14 +39,14 @@ fun MyTours(navController: NavController, tourViewModel: TourViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(5.dp),
+            .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "My Saved Tours",
             fontSize = 35.sp,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(25.dp)
         )
         // AI Aided work
         LazyColumn(modifier = Modifier.weight(1f).padding(25.dp)) {

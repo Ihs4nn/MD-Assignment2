@@ -1,6 +1,4 @@
 package com.example.blackpooltoursapp
-
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,7 +8,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.runtime.*
 import androidx.compose.material3.*
 import androidx.compose.material.icons.filled.ArrowBack
@@ -26,22 +23,27 @@ import androidx.navigation.NavController
 
 @Composable
 fun LoginScreen(navController: NavController) {
+    // Variables used to store user input and for error control
     val username = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val isError = remember { mutableStateOf(false) }
+
     Column(Modifier.fillMaxSize().padding(48.dp)) {
+        // Initialises each function w/ specific parameters needed
         LoginHeader(navController)
         LoginComponents(username, password, isError)
         LoginFooter(navController, username, password, isError)
     }
 }
 
+// Login Screen split into three parts for easy set up: Header, Components and Footer
 @Composable
 fun LoginHeader(navController: NavController){
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start
     ) {
+        // Backspace button used when a user wants to go back to the main page
         IconButton(onClick = { navController.navigate("main_screen") }) {
             Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
         }
@@ -54,21 +56,21 @@ fun LoginHeader(navController: NavController){
 
 @Composable
 fun LoginComponents(username: MutableState<String>, password: MutableState<String>, isError: MutableState<Boolean>){
-
     Spacer(modifier = Modifier.height(70.dp))
-
+    // Conditional to check to see if credentials are valid, if not, new UI changes are made
     if (isError.value){
         Text(
             text = "Invalid username or password.",
+            // Changes text colour to red when incorrect credentials are entered
             color = Color.Red,
             fontSize = 14.sp,
             modifier = Modifier
                 .padding(start = 8.dp)
-
         )
     }
     Spacer(modifier = Modifier.height(20.dp))
 
+    // Input field for user to type in their credentials
     TextField(
         value = username.value,
         onValueChange = { username.value = it },
@@ -96,10 +98,11 @@ fun LoginComponents(username: MutableState<String>, password: MutableState<Strin
 
 @Composable
 fun LoginFooter(navController: NavController, username: MutableState<String>, password: MutableState<String>, isError: MutableState<Boolean>){
-
+    // Button navigating to the tours_list screen
     Button(
         modifier = Modifier.width(200.dp),
         onClick = {
+            // Only navigates if user credentials are valid
             if (username.value == "user" && password.value == "pass"){
                 isError.value = false
                 navController.navigate("tours_list_screen")

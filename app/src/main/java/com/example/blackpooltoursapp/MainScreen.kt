@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Composable
+// First screen the user sees
 fun MainScreen(navController: NavController) {
     Column(
         modifier = Modifier
@@ -29,6 +30,7 @@ fun MainScreen(navController: NavController) {
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Title of the app with corresponding app logo
         Text("Blackpool Tours", fontSize = 35.sp)
         Image(
             modifier = Modifier.size(300.dp),
@@ -36,7 +38,7 @@ fun MainScreen(navController: NavController) {
             contentDescription = "BlackPool Tours Logo",
             contentScale = ContentScale.Fit
         )
-
+        // Button for navigation to 'LoginScreen.tk' code
         Button(
             modifier = Modifier.width(200.dp),
             onClick = { navController.navigate("login_screen") },

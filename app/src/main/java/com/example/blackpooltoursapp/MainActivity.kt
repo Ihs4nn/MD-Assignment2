@@ -23,6 +23,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val tourViewModel = remember { TourViewModel() }
                 Scaffold(modifier = Modifier.fillMaxSize()) {
+                    // Navigation control, each route is linked to a specific file
                     NavHost(navController = navController, startDestination = "main_screen") {
                         composable("main_screen") { MainScreen(navController) }
                         composable("login_screen") { LoginScreen(navController) }

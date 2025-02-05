@@ -30,25 +30,29 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 
+// Data class 'Tour' used to hold information about each tour
 data class Tour(
-    val image: Int,
+    val image: Int, // Images are Ints in Android!
     val title: String,
     val desc: String,
     val extraInfo: String
 )
 @Composable
 fun ToursList(navController: NavController, tourViewModel: TourViewModel) {
+    // Variable used to toggle between '+' and '-' button depending on screen
     var isHidden by remember { mutableStateOf<Boolean>(true) }
 
+    // Actual list of all the tours to be added to the ToursList screen.
     val sampleTours = listOf(
-        Tour(R.drawable.morocco, "Sahara Dessert", "Morocco's expansive dunes","Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
-        Tour(R.drawable.spain, "Sagrada Famillia", "A breathtaking church in Barcelona","Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
-        Tour(R.drawable.italy, "Rome","The capital of Italy","Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
-        Tour(R.drawable.aussie, "Kangaroo Island","A wildlife paradise in Australia","Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
-        Tour(R.drawable.japan, "Mount Fuji", "Japan's highest mountain","Lorem ipsum dolor sit amet, consectetur adipiscing elit")
+        Tour(R.drawable.morocco, "Sahara Dessert", "Morocco's expansive dunes","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
+        Tour(R.drawable.spain, "Sagrada Famillia", "A breathtaking church in Barcelona","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
+        Tour(R.drawable.italy, "Rome","The capital of Italy","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
+        Tour(R.drawable.aussie, "Kangaroo Island","A wildlife paradise in Australia","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
+        Tour(R.drawable.japan, "Mount Fuji", "Japan's highest mountain","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
     )
 
     Column(Modifier.fillMaxSize().padding(5.dp)) {
+        // LazyColum used to create the scrollable cards for the tours
         LazyColumn(
             modifier = Modifier
                 .weight(1f)
@@ -60,15 +64,15 @@ fun ToursList(navController: NavController, tourViewModel: TourViewModel) {
             }
         }
         //end
-        ToursListFooter(navController, hiddenButtonNav = {
-            isHidden = false
-            navController.navigate("my_tours_screen")
-        })
+
+        // Calls the footer function to show the button beneath the cards
+        ToursListFooter(navController)
     }
 }
 
 @Composable
 fun TourCards(tour: Tour, onSaveTour: (Tour) -> Unit, onRemoveTour: (Tour) -> Unit = {}, isHidden: Boolean) {
+    // Variable used to check if the cards are expanded
     var isExpanded by remember { mutableStateOf<Boolean>(false) }
 
     Card(
@@ -131,7 +135,7 @@ fun TourCards(tour: Tour, onSaveTour: (Tour) -> Unit, onRemoveTour: (Tour) -> Un
 }
 
 @Composable
-fun ToursListFooter(navController: NavController, hiddenButtonNav: () -> Unit){
+fun ToursListFooter(navController: NavController){
     Row(
         modifier = Modifier
             .fillMaxWidth(),

@@ -23,7 +23,6 @@ import androidx.navigation.NavController
 fun MyTours(navController: NavController, tourViewModel: TourViewModel) {
     // IsHidden variable also defined here to keep track of button toggling.
     val isHidden by remember { mutableStateOf<Boolean>(false) }
-
     Column(
         modifier = Modifier
             .fillMaxSize()

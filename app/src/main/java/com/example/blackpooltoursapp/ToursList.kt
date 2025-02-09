@@ -26,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -35,12 +36,14 @@ data class Tour(
     val image: Int, // Images are Ints in Android!
     val title: String,
     val desc: String,
-    val extraInfo: String
+    val extraInfo: String,
+    var weatherInfo: String? = null
 )
 @Composable
 fun ToursList(navController: NavController, tourViewModel: TourViewModel) {
     // Variable used to toggle between '+' and '-' button depending on screen
-    var isHidden by remember { mutableStateOf<Boolean>(true) }
+    val isHidden by remember { mutableStateOf<Boolean>(true) }
+
 
     // Actual list of all the tours to be added to the ToursList screen.
     val sampleTours = listOf(
@@ -76,6 +79,23 @@ fun ToursList(navController: NavController, tourViewModel: TourViewModel) {
 fun TourCards(tour: Tour, onSaveTour: (Tour) -> Unit, onRemoveTour: (Tour) -> Unit = {}, isHidden: Boolean) {
     // Variable used to check if the cards are expanded
     var isExpanded by remember { mutableStateOf<Boolean>(false) }
+    val weatherState = remember { mutableStateOf(tour.weatherInfo) }
+
+    val weatherCity = when(tour.title) {
+        "Sahara Dessert" -> "Marrakech"
+        "Sagrada Famillia" -> "Barcelona"
+        "Rome" -> "Rome"
+        "Kangaroo Island" -> "Melbourne"
+        "Mount Fuji" -> "Tokyo"
+        else -> tour.title
+    }
+
+    if (isExpanded && weatherState.value == null) {
+        LaunchedEffect(Unit) {
+            weatherState.value = WeatherAPI.getWeather(weatherCity)
+            tour.weatherInfo = weatherState.value
+        }
+    }
 
     Card(
         modifier = Modifier
@@ -108,9 +128,10 @@ fun TourCards(tour: Tour, onSaveTour: (Tour) -> Unit, onRemoveTour: (Tour) -> Un
                 Spacer(modifier = Modifier.height(8.dp))
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(text = tour.extraInfo)
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(text = "Weather in $weatherCity: ${weatherState.value ?: "Loading..."}")
             }
             Spacer(modifier = Modifier.height(10.dp))
-
 
             if (isHidden){
                 Button(

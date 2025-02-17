@@ -1,6 +1,8 @@
 package com.example.blackpooltoursapp
 
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -12,7 +14,6 @@ import org.junit.Rule
 
 
 class UT3 {
-
     @get:Rule
     val composeTestRule = createComposeRule()
 
@@ -30,7 +31,7 @@ class UT3 {
         composeTestRule.onNodeWithText("Username *").performTextInput(invalidUser)
         composeTestRule.onNodeWithText("Password *").performTextInput(invalidPass)
         // Step 3
-        composeTestRule.onNodeWithText("Login").performClick()
+        composeTestRule.onNode(hasText("Login") and hasClickAction()).performClick()
         composeTestRule.onNodeWithText("Invalid username or password.").assertIsDisplayed()
     }
 }

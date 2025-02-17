@@ -5,6 +5,7 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.net.URL
 
+//AI Aided
 object WeatherAPI {
     private const val API_KEY = "095f21213142d1434ba8916a79917794"
     private const val BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
@@ -13,13 +14,16 @@ object WeatherAPI {
         return withContext(Dispatchers.IO) {
             try {
                 val urlString = "$BASE_URL?q=$city&appid=$API_KEY&units=metric"
-                val response = URL(urlString).readText()  // simple network call
+                val response = URL(urlString).readText()
                 val jsonObject = JSONObject(response)
                 val temp = jsonObject.getJSONObject("main").getDouble("temp")
                 "$temp°C"
+                //end
             } catch (e: Exception) {
                 "Weather unavailable"
             }
         }
     }
 }
+
+

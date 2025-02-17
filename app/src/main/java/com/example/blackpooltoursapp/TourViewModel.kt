@@ -23,3 +23,4 @@ class TourViewModel : ViewModel() {
         _savedTours.remove(tour)
     }
 }
+

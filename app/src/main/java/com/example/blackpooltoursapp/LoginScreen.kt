@@ -35,7 +35,6 @@ fun LoginScreen(navController: NavController) {
         LoginFooter(navController, username, password, isError)
     }
 }
-
 // Login Screen split into three parts for easy set up: Header, Components and Footer
 @Composable
 fun LoginHeader(navController: NavController){
@@ -69,7 +68,6 @@ fun LoginComponents(username: MutableState<String>, password: MutableState<Strin
         )
     }
     Spacer(modifier = Modifier.height(20.dp))
-
     // Input field for user to type in their credentials
     TextField(
         value = username.value,
@@ -80,7 +78,6 @@ fun LoginComponents(username: MutableState<String>, password: MutableState<Strin
             .fillMaxWidth()
             .padding(bottom = 16.dp)
     )
-
     Spacer(modifier = Modifier.height(25.dp))
     TextField(
         value = password.value,
@@ -93,7 +90,6 @@ fun LoginComponents(username: MutableState<String>, password: MutableState<Strin
             .fillMaxWidth()
             .padding(bottom = 32.dp)
     )
-
 }
 
 @Composable
@@ -115,5 +111,4 @@ fun LoginFooter(navController: NavController, username: MutableState<String>, pa
     ) {
         Text("Login")
     }
-
 }

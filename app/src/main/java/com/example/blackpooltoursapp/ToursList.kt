@@ -44,7 +44,6 @@ fun ToursList(navController: NavController, tourViewModel: TourViewModel) {
     // Variable used to toggle between '+' and '-' button depending on screen
     val isHidden by remember { mutableStateOf<Boolean>(true) }
 
-
     // Actual list of all the tours to be added to the ToursList screen.
     val sampleTours = listOf(
         Tour(R.drawable.morocco, "Sahara Dessert", "Morocco's expansive dunes","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
@@ -74,13 +73,13 @@ fun ToursList(navController: NavController, tourViewModel: TourViewModel) {
         ToursListFooter(navController)
     }
 }
-
 @Composable
 fun TourCards(tour: Tour, onSaveTour: (Tour) -> Unit, onRemoveTour: (Tour) -> Unit = {}, isHidden: Boolean) {
     // Variable used to check if the cards are expanded
     var isExpanded by remember { mutableStateOf<Boolean>(false) }
     val weatherState = remember { mutableStateOf(tour.weatherInfo) }
 
+    // AI Aided
     val weatherCity = when(tour.title) {
         "Sahara Dessert" -> "Marrakech"
         "Sagrada Famillia" -> "Barcelona"
@@ -89,14 +88,13 @@ fun TourCards(tour: Tour, onSaveTour: (Tour) -> Unit, onRemoveTour: (Tour) -> Un
         "Mount Fuji" -> "Tokyo"
         else -> tour.title
     }
-
     if (isExpanded && weatherState.value == null) {
         LaunchedEffect(Unit) {
             weatherState.value = WeatherAPI.getWeather(weatherCity)
             tour.weatherInfo = weatherState.value
         }
+        //end
     }
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -122,7 +120,6 @@ fun TourCards(tour: Tour, onSaveTour: (Tour) -> Unit, onRemoveTour: (Tour) -> Un
             Text(text = tour.title)
             Spacer(modifier = Modifier.height(4.dp))
             Text(text = tour.desc)
-
             // If the card has been clicked, it is expanded and 'extraInfo' is displayed to user
             if (isExpanded) {
                 Spacer(modifier = Modifier.height(8.dp))
@@ -132,7 +129,6 @@ fun TourCards(tour: Tour, onSaveTour: (Tour) -> Unit, onRemoveTour: (Tour) -> Un
                 Text(text = "Weather in $weatherCity: ${weatherState.value ?: "Loading..."}")
             }
             Spacer(modifier = Modifier.height(10.dp))
-
             if (isHidden){
                 Button(
                     modifier = Modifier
@@ -161,7 +157,6 @@ fun TourCards(tour: Tour, onSaveTour: (Tour) -> Unit, onRemoveTour: (Tour) -> Un
         }
     }
 }
-
 @Composable
 fun ToursListFooter(navController: NavController){
     Row(
@@ -183,3 +178,4 @@ fun ToursListFooter(navController: NavController){
     }
 
 }
+

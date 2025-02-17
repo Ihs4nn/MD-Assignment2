@@ -18,6 +18,7 @@ class UT1 {
         )
         // Step 3
         testViewModel.addTour(testTour)
-        assertTrue(testViewModel.savedTours.contains(testTour))
+        assertTrue("testTour added to savedTours",testViewModel.savedTours.contains(testTour))
     }
 }
+

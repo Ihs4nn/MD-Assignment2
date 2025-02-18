@@ -21,7 +21,6 @@ class UT3 {
     fun invalidLoginCredentials() {
         val invalidUser = "use"
         val invalidPass = "pas"
-
         // Step 1
         composeTestRule.setContent{
             val testNavController = rememberNavController()
@@ -35,3 +34,4 @@ class UT3 {
         composeTestRule.onNodeWithText("Invalid username or password.").assertIsDisplayed()
     }
 }
+

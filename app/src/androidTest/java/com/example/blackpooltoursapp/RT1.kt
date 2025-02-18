@@ -19,7 +19,38 @@ class RT1 {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun navigationalFlow(){
+    fun navigationalFlow() {
+        val validUser = "user"
+        val validPass = "pass"
+
+        // Step 1
+        composeTestRule.setContent {
+            val testNavController = rememberNavController()
+            MainScreen(testNavController)
+        }
+        // Step 2
+        composeTestRule.onNode(hasText("Login") and hasClickAction()).performClick()
+
+        // Step 3
+        // Confirm we are in login screen
+        composeTestRule.onNodeWithText("Username *").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Username *").performTextInput(validUser)
+        composeTestRule.onNodeWithText("Password *").performTextInput(validPass)
+        composeTestRule.onNode(hasText("Login") and hasClickAction()).performClick()
+
+        // Step 4
+        // Confirm we are in the tours list screen
+        composeTestRule.onNodeWithText("My Tours").assertIsDisplayed()
+        composeTestRule.onNode(hasText("My Tours") and hasClickAction()).performClick()
+
+        // Step 5
+        // Confirm we are in the my tours screen
+        composeTestRule.onNodeWithText("My Saved Tours").assertIsDisplayed()
+        composeTestRule.onNode(hasText("Back to tours") and hasClickAction()).performClick()
+        // Confirm we are back to tours list screen
+        composeTestRule.onNodeWithText("My Tours").assertIsDisplayed()
+
+
 
     }
 

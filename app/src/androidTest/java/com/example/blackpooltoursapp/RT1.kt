@@ -8,11 +8,11 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import org.junit.Test
-import org.junit.Assert.*
 import org.junit.Rule
-
 
 class RT1 {
     @get:Rule
@@ -26,7 +26,13 @@ class RT1 {
         // Step 1
         composeTestRule.setContent {
             val testNavController = rememberNavController()
-            MainScreen(testNavController)
+            val testTourViewModel = TourViewModel()
+            NavHost(navController = testNavController, startDestination = "main_screen") {
+                composable("main_screen") { MainScreen(testNavController) }
+                composable("login_screen") { LoginScreen(testNavController) }
+                composable("tours_list_screen") { ToursList(testNavController, testTourViewModel) }
+                composable("my_tours_screen") { MyTours(testNavController, testTourViewModel) }
+            }
         }
         // Step 2
         composeTestRule.onNode(hasText("Login") and hasClickAction()).performClick()
@@ -49,8 +55,6 @@ class RT1 {
         composeTestRule.onNode(hasText("Back to tours") and hasClickAction()).performClick()
         // Confirm we are back to tours list screen
         composeTestRule.onNodeWithText("My Tours").assertIsDisplayed()
-
-
 
     }
 
